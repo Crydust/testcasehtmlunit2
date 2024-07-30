@@ -12,13 +12,6 @@ import java.time.Duration;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-/**
- * When using HtmlUnit ...
- * org.springframework.test.web.servlet.htmlunit.HtmlUnitRequestBuilder.buildRequest
- * org.springframework.test.web.servlet.htmlunit.HtmlUnitRequestBuilder.params
- * reads this.webRequest.getParameters(), but ignores query parameters?
- * org.htmlunit.WebRequest.getParameters ignores query string parameters for post?
- */
 public class SimpleControllerTest {
 
     private WebDriver driver;
