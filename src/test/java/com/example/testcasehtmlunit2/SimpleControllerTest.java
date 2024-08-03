@@ -1,13 +1,17 @@
 package com.example.testcasehtmlunit2;
 
-import org.htmlunit.BrowserVersion;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -87,7 +91,6 @@ public class SimpleControllerTest {
 
     @Test
     void shouldHandleForm6() {
-        // fails with HtmlUnitRequestBuilder
         driver.get("http://localhost:8080/");
 
         driver.findElement(By.cssSelector("#form6 button")).click();
@@ -102,7 +105,6 @@ public class SimpleControllerTest {
 
     @Test
     void shouldHandleForm7() {
-        // fails with HtmlUnitRequestBuilder
         driver.get("http://localhost:8080/");
 
         driver.findElement(By.cssSelector("#form7 button")).click();
@@ -112,6 +114,57 @@ public class SimpleControllerTest {
         assertAll(
                 () -> assertThat(submittedForm, is("7")),
                 () -> assertThat(valuesOfX, is("checkbox1, checkbox2, checkbox3"))
+        );
+    }
+
+    @Test
+    void shouldHandleForm8() {
+        // fails with HtmlUnitRequestBuilder
+        driver.get("http://localhost:8080/");
+
+        driver.findElement(By.cssSelector("#form8 button")).click();
+
+        String submittedForm = driver.findElement(By.cssSelector("#submittedForm")).getText();
+        String valuesOfX = driver.findElement(By.cssSelector("#valuesOfX")).getText();
+        assertAll(
+                () -> assertThat(submittedForm, is("8")),
+                () -> assertThat(valuesOfX, is("hidden, button, query"))
+        );
+    }
+
+    @Test
+    void shouldHandleForm9() {
+        // fails with HtmlUnitRequestBuilder
+        driver.get("http://localhost:8080/");
+
+        driver.findElement(By.cssSelector("#form9 button")).click();
+
+        String submittedForm = driver.findElement(By.cssSelector("#submittedForm")).getText();
+        String valuesOfX = driver.findElement(By.cssSelector("#valuesOfX")).getText();
+        assertAll(
+                () -> assertThat(submittedForm, is("9")),
+                () -> assertThat(valuesOfX, is("checkbox1, checkbox2, checkbox3"))
+        );
+    }
+
+    @Test
+    void shouldHandleForm10(@TempDir Path tempDir) throws IOException {
+        // fails with HtmlUnitRequestBuilder
+        driver.get("http://localhost:8080/");
+
+        Path tempFile = tempDir.resolve("example.txt");
+        Files.writeString(tempFile, "Hello world!", StandardCharsets.US_ASCII);
+        driver.findElement(By.cssSelector("#form10 input[name='file']")).sendKeys(tempFile.toAbsolutePath().toString());
+
+        driver.findElement(By.cssSelector("#form10 button")).click();
+
+        String submittedForm = driver.findElement(By.cssSelector("#submittedForm")).getText();
+        String fileName = driver.findElement(By.cssSelector("#fileName")).getText();
+        String fileContents = driver.findElement(By.cssSelector("#fileContents")).getText();
+        assertAll(
+                () -> assertThat(submittedForm, is("10")),
+                () -> assertThat(fileName, is("example.txt")),
+                () -> assertThat(fileContents, is("Hello world!"))
         );
     }
 
