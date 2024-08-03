@@ -7,6 +7,12 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+}
+
+// alternatively use "gradle build --refresh-dependencies" to force refresh
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 dependencies {
@@ -19,6 +25,9 @@ dependencies {
 //    testImplementation 'ch.qos.logback:logback-core:1.5.6'
     testImplementation 'org.seleniumhq.selenium:selenium-java:4.22.0'
     testImplementation 'org.seleniumhq.selenium:htmlunit3-driver:4.22.0'
+//	testImplementation 'org.htmlunit:htmlunit:4.5.0-SNAPSHOT'
+    testImplementation group: 'org.htmlunit', name: 'htmlunit', version: '4.5.0-SNAPSHOT', changing: true
+
 }
 
 test {
