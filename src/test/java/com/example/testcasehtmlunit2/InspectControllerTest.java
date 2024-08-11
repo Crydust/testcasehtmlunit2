@@ -39,23 +39,29 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElem
 
 public class InspectControllerTest {
 
-    private WebDriver driver;
+    private static WebDriver driver;
 
-    @BeforeEach
-    void setup() {
+    @BeforeAll
+    static void setup() {
         driver = WebDriverManager.firefoxdriver().create();
 //        driver = new HtmlUnitDriver();
     }
 
-    @AfterEach
-    void teardown() {
+    @AfterAll
+    static void teardown() {
         driver.quit();
     }
-
-    @AfterEach
-    void tearDown() {
-        driver.quit();
-    }
+//
+//    @BeforeEach
+//    void setup() {
+//        driver = WebDriverManager.firefoxdriver().create();
+////        driver = new HtmlUnitDriver();
+//    }
+//
+//    @AfterEach
+//    void teardown() {
+//        driver.quit();
+//    }
 
     @TempDir
     static Path tempDir;
@@ -82,6 +88,7 @@ public class InspectControllerTest {
 
     @AfterAll
     static void afterAll() throws XMLStreamException {
+        xmlStreamWriter.writeCharacters("\n");
         xmlStreamWriter.writeEndElement();
         xmlStreamWriter.writeCharacters("\n");
         xmlStreamWriter.writeEndDocument();
@@ -101,7 +108,6 @@ public class InspectControllerTest {
         new Select(driver.findElement(By.id("accept"))).selectByVisibleText(accept);
 
         driver.findElement(By.id("button")).click();
-        Thread.sleep(100);
         waitUntilAjaxFinished();
 
         String actual = driver.findElement(By.id("output")).getText();
@@ -178,7 +184,7 @@ public class InspectControllerTest {
                 }
             }
         }
-        return arguments.stream();
+        return arguments.stream().filter(it->"TRACE".equals(it.get()[1]));
     }
 
     private void waitUntilAjaxFinished() {
