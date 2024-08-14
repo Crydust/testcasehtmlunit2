@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
-import static java.util.function.Predicate.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
